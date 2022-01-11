@@ -7,7 +7,7 @@ export default function user(state = INITIAL_STATE, action) {
   case USER_LOGIN:
     return {
       ...state,
-      email: action.payload,
+      email: action.data,
     };
   default:
     return state;
