@@ -5,11 +5,10 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import store from './reducers/index';
+import store from './store/index';
 
 ReactDOM.render(
-  // https://pretagteam.com/question/storegetstate-is-not-a-function-reactredux
-  <Provider store={ store() }>
+  <Provider store={ store }>
     <BrowserRouter>
       <App />
     </BrowserRouter>
