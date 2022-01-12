@@ -13,6 +13,7 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.validation = this.validation.bind(this);
+    this.sendData = this.sendData.bind(this);
   }
 
   validation() {
@@ -70,6 +71,7 @@ class Login extends React.Component {
         <button
           type="button"
           disabled={ btnDisabled }
+          onClick={ this.sendData }
         >
           Entrar
         </button>

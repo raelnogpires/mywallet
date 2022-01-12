@@ -8,7 +8,8 @@ import * as serviceWorker from './serviceWorker';
 import store from './reducers/index';
 
 ReactDOM.render(
-  <Provider store={ store }>
+  // https://pretagteam.com/question/storegetstate-is-not-a-function-reactredux
+  <Provider store={ store() }>
     <BrowserRouter>
       <App />
     </BrowserRouter>
