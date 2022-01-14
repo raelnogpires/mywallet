@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Header from '../components/Header';
 import Form from '../components/Form';
 
-class Wallet extends React.Component {
+export default class Wallet extends React.Component {
   render() {
     return (
       <>
@@ -14,5 +13,3 @@ class Wallet extends React.Component {
     );
   }
 }
-
-export default connect(mapStateToProps, null)(Wallet);

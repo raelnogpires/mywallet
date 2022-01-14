@@ -7,3 +7,10 @@ export const login = (email) => ({
     email,
   },
 });
+
+export const SET_WALLET = 'SET_WALLET';
+
+export const wallet = (payload) => ({
+  type: SET_WALLET,
+  payload,
+});
