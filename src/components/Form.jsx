@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { wallet } from '../actions';
+import fetchExchanges from '../helpers/fetchAPI';
 
 class Form extends Component {
   constructor() {
@@ -14,10 +15,20 @@ class Form extends Component {
       currency: '',
       method: 'cash',
       tag: 'food',
+      exchangeRates: {},
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.addItens = this.addItens.bind(this);
+  }
+
+  componentDidMount() {
+    this.getExchangeRates();
+  }
+
+  getExchangeRates = async () => {
+    const data = await fetchExchanges();
+    this.setState({ exchangeRates: data });
   }
 
   handleChange({ target }) {
@@ -27,13 +38,15 @@ class Form extends Component {
 
   addItens() {
     const { setWallet } = this.props;
-    this.setState((previous) => ({
-      id: previous.id + 1,
+    this.setState((prev) => ({
+      id: prev.id + 1,
     }));
     setWallet(this.state);
   }
 
   render() {
+    const { exchangeRates } = this.state;
+
     return (
       <div id="form-div">
         <form id="expenses-inputs">
@@ -65,7 +78,15 @@ class Form extends Component {
               data-testid="currency-input"
               onChange={ this.handleChange }
             >
-              opções
+              { Object.keys(exchangeRates).map((exchange) => (
+                <option
+                  data-testid={ exchange }
+                  value={ exchange }
+                  key={ exchange }
+                >
+                  { exchange }
+                </option>
+              )) }
             </select>
           </label>
           <label htmlFor="method">
@@ -77,8 +98,8 @@ class Form extends Component {
               onChange={ this.handleChange }
             >
               <option value="cash">Dinheiro</option>
-              <option value="debit-card">Cartão de Débito</option>
-              <option value="credit-card">Cartão de Crédito</option>
+              <option value="debit-card">Cartão de débito</option>
+              <option value="credit-card">Cartão de crédito</option>
             </select>
           </label>
           <label htmlFor="tag">

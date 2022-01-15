@@ -9,11 +9,10 @@ function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
   case SET_WALLET:
     return {
+      // retorna o estado inteiro primeiro,
       ...state,
-      expenses: [
-        ...state.expenses,
-        action.payload,
-      ],
+      // depois retorna as expenses já adicionadas e a nova (payload).
+      expenses: [...state.expenses, action.payload],
     };
   default:
     return state;
