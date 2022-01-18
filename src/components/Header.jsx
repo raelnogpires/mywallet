@@ -9,6 +9,10 @@ class Header extends Component {
     this.state = { total: 0 };
   }
 
+  componentDidMount() {
+    this.sumTotalExpenses();
+  }
+
   componentDidUpdate(prevProps) {
     const { walletExpenses } = this.props;
 
@@ -26,7 +30,7 @@ class Header extends Component {
       // EX: 50 * 6.3199 (cotação do euro)
       // EX: 316.00 BRL
       .map((e) => (Number(e.value) * Number((e.exchangeRates[e.currency]).ask)))
-      .reduce((acc, curr) => (acc + curr), 0).toFixed(2);
+      .reduce((acc, curr) => (acc + curr), 0);
 
     this.setState({ total });
   };
