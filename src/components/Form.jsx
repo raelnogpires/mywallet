@@ -12,7 +12,7 @@ class Form extends Component {
       id: 0,
       value: '',
       description: '',
-      currency: '',
+      currency: 'USD',
       method: 'cash',
       tag: 'food',
       exchangeRates: {},
@@ -83,6 +83,7 @@ class Form extends Component {
                   data-testid={ exchange }
                   value={ exchange }
                   key={ exchange }
+                  name={ exchange }
                 >
                   { exchange }
                 </option>
