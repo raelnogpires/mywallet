@@ -20,26 +20,25 @@ class Header extends Component {
   sumTotalExpenses = () => {
     const { walletExpenses } = this.props;
 
-    const all = walletExpenses
+    const total = walletExpenses
       // Multiplica o valor da despesa pelo cotação da moeda selecionada.
       // EX: 50 * ((e.exchangeRates[EUR].ask))
       // EX: 50 * 6.3199 (cotação do euro)
       // EX: 316.00 BRL
       .map((e) => (Number(e.value) * Number((e.exchangeRates[e.currency]).ask)))
-      .reduce((acc, curr) => (acc + curr), 0);
+      .reduce((acc, curr) => (acc + curr), 0).toFixed(2);
 
-    this.setState({ total: all });
+    this.setState({ total });
   };
 
   render() {
     const { userEmail } = this.props;
     const { total } = this.state;
-    const toFixed = Number(total).toFixed(2);
 
     return (
       <header>
         <span id="user-email" data-testid="email-field">{ userEmail }</span>
-        <span id="funds" data-testid="total-field">{ toFixed }</span>
+        <span data-testid="total-field" id="funds">{ Number(total).toFixed(2) }</span>
         <span id="account-currency" data-testid="header-currency-field">BRL</span>
       </header>
     );

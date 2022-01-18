@@ -14,3 +14,10 @@ export const wallet = (payload) => ({
   type: SET_WALLET,
   payload,
 });
+
+export const DELETE = 'DELETE';
+
+export const deleteItem = (payload) => ({
+  type: DELETE,
+  payload,
+});
