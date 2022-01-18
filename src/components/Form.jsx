@@ -13,8 +13,8 @@ class Form extends Component {
       value: '',
       description: '',
       currency: 'USD',
-      method: 'cash',
-      tag: 'food',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
       exchangeRates: {},
     };
 
@@ -98,9 +98,9 @@ class Form extends Component {
               data-testid="method-input"
               onChange={ this.handleChange }
             >
-              <option value="cash">Dinheiro</option>
-              <option value="debit-card">Cartão de débito</option>
-              <option value="credit-card">Cartão de crédito</option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão de débito">Cartão de débito</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
             </select>
           </label>
           <label htmlFor="tag">
@@ -111,11 +111,11 @@ class Form extends Component {
               data-testid="tag-input"
               onChange={ this.handleChange }
             >
-              <option value="food">Alimentação</option>
-              <option value="lazer">Lazer</option>
-              <option value="work">Trabalho</option>
-              <option value="transportation">Transporte</option>
-              <option value="health">Saúde</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
             </select>
             <button
               type="button"
