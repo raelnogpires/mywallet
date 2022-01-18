@@ -17,6 +17,7 @@ export const wallet = (payload) => ({
 
 export const DELETE = 'DELETE';
 
+// armazena o ID do item a ser removido da carteira.
 export const deleteItem = (payload) => ({
   type: DELETE,
   payload,
