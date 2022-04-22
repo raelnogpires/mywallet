@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { wallet } from '../actions';
-import fetchExchanges from '../helpers/fetchAPI';
+import { editExpense, hideEditForm } from '../actions/index';
 
-class Form extends Component {
-  constructor() {
-    super();
+export class EditForm extends Component {
+  constructor(props) {
+    super(props);
+
+    const { data } = props;
 
     this.state = {
-      id: 0,
-      value: '',
-      description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
+      data,
       exchangeRates: {},
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.addItens = this.addItens.bind(this);
   }
 
   componentDidMount() {
@@ -31,33 +24,28 @@ class Form extends Component {
     this.setState({ exchangeRates: data });
   }
 
-  handleChange({ target }) {
+  changeHandler = ({ target }) => {
     const { name, value } = target;
-    this.setState({ [name]: value });
-  }
 
-  addItens() {
-    const { setWallet } = this.props;
-    this.setState((prev) => ({
-      id: prev.id + 1,
-    }));
-    setWallet(this.state);
-  }
+    this.setState({ [name]: value });
+  };
 
   render() {
+    const { data, edit, hide } = this.props;
     const { exchangeRates } = this.state;
 
     return (
-      <div id="form-div">
-        <form className="expenses-inputs">
+      <div id="edit-div">
+        <div className="expenses-inputs">
           <label htmlFor="value">
             Valor
             <input
               type="number"
               id="value"
+              defaultValue={ data.value }
               name="value"
               data-testid="value-input"
-              onChange={ this.handleChange }
+              onChange={ this.changeHandler }
             />
           </label>
           <label htmlFor="description">
@@ -65,9 +53,10 @@ class Form extends Component {
             <input
               type="text"
               id="description"
+              defaultValue={ data.description }
               name="description"
               data-testid="description-input"
-              onChange={ this.handleChange }
+              onChange={ this.changeHandler }
             />
           </label>
           <label htmlFor="currency">
@@ -76,7 +65,8 @@ class Form extends Component {
               id="currency"
               name="currency"
               data-testid="currency-input"
-              onChange={ this.handleChange }
+              defaultValue={ data.currency }
+              onChange={ this.changeHandler }
             >
               { Object.keys(exchangeRates).map((exchange) => (
                 <option
@@ -96,7 +86,8 @@ class Form extends Component {
               id="method"
               name="method"
               data-testid="method-input"
-              onChange={ this.handleChange }
+              defaultValue={ data.method }
+              onChange={ this.changeHandler }
             >
               <option value="Dinheiro">Dinheiro</option>
               <option value="Cartão de débito">Cartão de débito</option>
@@ -109,7 +100,8 @@ class Form extends Component {
               id="tag"
               name="tag"
               data-testid="tag-input"
-              onChange={ this.handleChange }
+              defaultValue={ data.tag }
+              onChange={ this.changeHandler }
             >
               <option value="Alimentação">Alimentação</option>
               <option value="Lazer">Lazer</option>
@@ -117,25 +109,37 @@ class Form extends Component {
               <option value="Transporte">Transporte</option>
               <option value="Saúde">Saúde</option>
             </select>
-            <button
-              type="button"
-              onClick={ this.addItens }
-            >
-              Adicionar despesa
-            </button>
           </label>
-        </form>
+          <button
+            type="button"
+            onClick={ () => {
+              edit(this.state);
+              hide();
+            } }
+          >
+            Editar despesa
+          </button>
+        </div>
       </div>
     );
   }
 }
 
-Form.propTypes = {
-  setWallet: PropTypes.func.isRequired,
+EditForm.propTypes = {
+  data: PropTypes.shape({
+    value: PropTypes.string,
+    description: PropTypes.string,
+    currency: PropTypes.string,
+    method: PropTypes.string,
+    tag: PropTypes.string,
+  }).isRequired,
+  edit: PropTypes.func.isRequired,
+  hide: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setWallet: (payload) => dispatch(wallet(payload)),
+  edit: (payload) => dispatch(editExpense(payload)),
+  hide: () => dispatch(hideEditForm()),
 });
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect(null, mapDispatchToProps)(EditForm);
