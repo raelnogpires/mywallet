@@ -1,4 +1,10 @@
-import { DELETE, SET_WALLET } from '../actions';
+import {
+  DELETE,
+  SET_WALLET,
+  EDIT_EXPENSE,
+  SHOW_EDIT_FORM,
+  HIDE_EDIT_FORM,
+} from '../actions';
 
 const INITIAL_STATE = { expenses: [] };
 
@@ -19,6 +25,22 @@ function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       expenses: filtered,
+    };
+  case EDIT_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses
+        .map((ex) => (ex.id === action.payload.id ? action.payload : ex)),
+    };
+  case SHOW_EDIT_FORM:
+    return {
+      ...state,
+      editForm: true,
+    };
+  case HIDE_EDIT_FORM:
+    return {
+      ...state,
+      editForm: false,
     };
   default:
     return state;
