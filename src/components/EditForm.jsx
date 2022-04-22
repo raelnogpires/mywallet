@@ -9,19 +9,7 @@ export class EditForm extends Component {
 
     const { data } = props;
 
-    this.state = {
-      data,
-      exchangeRates: {},
-    };
-  }
-
-  componentDidMount() {
-    this.getExchangeRates();
-  }
-
-  getExchangeRates = async () => {
-    const data = await fetchExchanges();
-    this.setState({ exchangeRates: data });
+    this.state = { ...data };
   }
 
   changeHandler = ({ target }) => {
@@ -32,7 +20,8 @@ export class EditForm extends Component {
 
   render() {
     const { data, edit, hide } = this.props;
-    const { exchangeRates } = this.state;
+    const { value, description, currency, method, tag, exchangeRates } = data;
+    console.log(this.state);
 
     return (
       <div id="edit-div">
@@ -42,7 +31,7 @@ export class EditForm extends Component {
             <input
               type="number"
               id="value"
-              defaultValue={ data.value }
+              defaultValue={ value }
               name="value"
               data-testid="value-input"
               onChange={ this.changeHandler }
@@ -53,7 +42,7 @@ export class EditForm extends Component {
             <input
               type="text"
               id="description"
-              defaultValue={ data.description }
+              defaultValue={ description }
               name="description"
               data-testid="description-input"
               onChange={ this.changeHandler }
@@ -65,7 +54,7 @@ export class EditForm extends Component {
               id="currency"
               name="currency"
               data-testid="currency-input"
-              defaultValue={ data.currency }
+              defaultValue={ currency }
               onChange={ this.changeHandler }
             >
               { Object.keys(exchangeRates).map((exchange) => (
@@ -86,7 +75,7 @@ export class EditForm extends Component {
               id="method"
               name="method"
               data-testid="method-input"
-              defaultValue={ data.method }
+              defaultValue={ method }
               onChange={ this.changeHandler }
             >
               <option value="Dinheiro">Dinheiro</option>
@@ -100,7 +89,7 @@ export class EditForm extends Component {
               id="tag"
               name="tag"
               data-testid="tag-input"
-              defaultValue={ data.tag }
+              defaultValue={ tag }
               onChange={ this.changeHandler }
             >
               <option value="Alimentação">Alimentação</option>
@@ -126,13 +115,14 @@ export class EditForm extends Component {
 }
 
 EditForm.propTypes = {
-  data: PropTypes.shape({
-    value: PropTypes.string,
-    description: PropTypes.string,
-    currency: PropTypes.string,
-    method: PropTypes.string,
-    tag: PropTypes.string,
-  }).isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
+  // data: PropTypes.shape({
+  //   value: PropTypes.string,
+  //   description: PropTypes.string,
+  //   currency: PropTypes.string,
+  //   method: PropTypes.string,
+  //   tag: PropTypes.string,
+  // }).isRequired,
   edit: PropTypes.func.isRequired,
   hide: PropTypes.func.isRequired,
 };

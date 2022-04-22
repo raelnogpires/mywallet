@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteItem } from '../actions';
+import { deleteItem, showEditForm } from '../actions';
+import EditForm from './EditForm';
 
 export class Table extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { currExp: [] };
+  }
+
   render() {
-    const { expensesData, removeFromList } = this.props;
+    const { expensesData, removeFromList, formEditOn, showForm } = this.props;
+    const { currExp } = this.state;
+    console.log(currExp);
 
     return (
       <div id="table-div">
+        { formEditOn && <EditForm data={ currExp } /> }
         <table>
           <thead>
             <tr>
@@ -47,6 +57,8 @@ export class Table extends Component {
                   <button
                     type="button"
                     data-testid="edit-btn"
+                    onClick={ () => (
+                      this.setState({ currExp: e }, () => showForm())) }
                   >
                     Editar
                   </button>
@@ -70,14 +82,18 @@ export class Table extends Component {
 Table.propTypes = {
   expensesData: PropTypes.instanceOf(Array).isRequired,
   removeFromList: PropTypes.func.isRequired,
+  formEditOn: PropTypes.bool.isRequired,
+  showForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   expensesData: state.wallet.expenses,
+  formEditOn: state.wallet.editForm,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   removeFromList: (payload) => dispatch(deleteItem(payload)),
+  showForm: () => dispatch(showEditForm()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
