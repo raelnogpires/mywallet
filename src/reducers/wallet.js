@@ -1,9 +1,6 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import { DELETE, SET_WALLET } from '../actions';
 
-const INITIAL_STATE = {
-  expenses: [],
-};
+const INITIAL_STATE = { expenses: [] };
 
 const removeItem = (state, id) => state.expenses.filter((e) => e.id !== id);
 
